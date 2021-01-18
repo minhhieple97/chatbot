@@ -5,11 +5,12 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const
     request = require('request'),
     express = require('express'),
-    body_parser = require('body-parser'),
-    app = express().use(body_parser.json()); // creates express http server
-
+    path = require('path'),
+    app = express().use(express.json()); // creates express http server
+app.set('views', path.join(__dirname, './views'));
+app.set('view engine', 'ejs');
 // Sets server port and logs message on success
-app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
+app.listen(process.env.PORT || 3001, () => console.log('webhook is listening'));
 
 // Accepts POST requests at /webhook endpoint
 app.post('/webhook', (req, res) => {
@@ -51,7 +52,7 @@ app.post('/webhook', (req, res) => {
 });
 
 // Accepts GET requests at the /webhook endpoint
-app.get('/webhook', (req, res) => {
+app.get('/webhook_', (req, res) => {
 
     /** UPDATE YOUR VERIFY TOKEN **/
     const VERIFY_TOKEN = "pusher-bot";
@@ -69,6 +70,7 @@ app.get('/webhook', (req, res) => {
 
             // Respond with 200 OK and challenge token from the request
             console.log('WEBHOOK_VERIFIED');
+            console.log({ challenge })
             res.status(200).send(challenge);
 
         } else {
@@ -77,7 +79,13 @@ app.get('/webhook', (req, res) => {
         }
     }
 });
-
+app.get('/webview', (req, res) => {
+    return res.render('hotel.ejs')
+});
+app.get('/set-up-webview', (req, res) => {
+    console.log(req.body)
+    return res.redirect("/")
+});
 function handleMessage(sender_psid, received_message) {
     let response;
 
@@ -95,24 +103,18 @@ function handleMessage(sender_psid, received_message) {
             "attachment": {
                 "type": "template",
                 "payload": {
-                    "template_type": "generic",
-                    "elements": [{
-                        "title": "Is this the right picture?",
-                        "subtitle": "Tap a button to answer.",
-                        "image_url": attachment_url,
-                        "buttons": [
-                            {
-                                "type": "postback",
-                                "title": "Yes!",
-                                "payload": "yes",
-                            },
-                            {
-                                "type": "postback",
-                                "title": "No!",
-                                "payload": "no",
-                            }
-                        ],
-                    }]
+                    "template_type": "button",
+                    "text": "OK. Let's set your room preferences, so I won't ? need to ask for them in the future?",
+                    image_url: "https://image.flaticon.com/teams/slug/freepik.jpg",
+                    "buttons": [
+                        {
+                            "type": "web_url",
+                            "url": process.env.WEBVIEW_URL,
+                            "title": "Set preferences",
+                            "webview_height_ratio": "tall", //display on mobile
+                            "messenger_extensions": true //false : open the webview in new tab
+                        },
+                    ]
                 }
             }
         }
