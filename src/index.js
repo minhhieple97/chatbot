@@ -1,6 +1,7 @@
 // require("dotenv").config();
 "use strict";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const { default: axios } = require("axios");
 // Imports dependencies and set up http server
 const request = require("request"),
   express = require("express"),
@@ -94,7 +95,6 @@ function handleMessage(sender_psid, received_message) {
         template_type: "button",
         text:
           "OK. Let's set your room preferences, so I won't ? need to ask for them in the future?",
-        image_url: "https://image.flaticon.com/teams/slug/freepik.jpg",
         buttons: [
           {
             type: "web_url",
@@ -129,30 +129,23 @@ function handlePostback(sender_psid, received_postback) {
   callSendAPI(sender_psid, response);
 }
 
-function callSendAPI(sender_psid, response) {
+const callSendAPI = async (sid, content) => {
   // Construct the message body
   let request_body = {
     recipient: {
-      id: sender_psid,
+      id: sid,
     },
-    message: response,
+    message: content,
   };
-
-  // Send the HTTP request to the Messenger Platform
-  console.log({ request_body: JSON.stringify(request_body) });
-  request(
+  const json = JSON.stringify(request_body);
+  const response = await axios.post(
+    `https://graph.facebook.com/v9.0/me/messages?access_token=${process.env.PAGE_ACCESS_TOKEN}`,
+    json,
     {
-      uri: "https://graph.facebook.com/v2.6/me/messages",
-      qs: { access_token: PAGE_ACCESS_TOKEN },
-      method: "POST",
-      json: request_body,
-    },
-    (err, res, body) => {
-      if (!err) {
-        console.log("message sent!");
-      } else {
-        console.error("Unable to send message:" + err);
-      }
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
   );
-}
+  return response.data;
+};
