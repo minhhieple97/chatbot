@@ -47,7 +47,6 @@ app.post("/webhook", (req, res) => {
 app.get("/webhook_", (req, res) => {
   /** UPDATE YOUR VERIFY TOKEN **/
   const VERIFY_TOKEN = "pusher-bot";
-  console.log(req.query);
   // Parse params from the webhook verification request
   let mode = req.query["hub.mode"];
   let token = req.query["hub.verify_token"];
@@ -113,7 +112,6 @@ async function handleMessage(sender_psid, received_message) {
 }
 
 async function handlePostback(sender_psid, received_postback) {
-  console.log("ok");
   let response;
   // Get the payload for the postback
   let payload = received_postback.payload;
@@ -147,6 +145,7 @@ const callSendAPI = async (sid, content) => {
         },
       }
     );
+    console.log(response.data)
     return response.data;
   } catch (error) {
     console.log(error);
