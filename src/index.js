@@ -67,11 +67,11 @@ app.get("/webhook_", (req, res) => {
   }
 });
 app.get("/webview", (req, res) => {
-  return res.render("hotel.ejs");
+  return res.render("hotel.ejs", { psid: "3479323565448041" });
 });
 app.post("/set-up-webview", (req, res) => {
-  console.log(req.body);
-  return res.redirect("/");
+  console.log(req);
+  return res.status(200).json({ message: "OK" });
 });
 async function handleMessage(sender_psid, received_message) {
   let response;
