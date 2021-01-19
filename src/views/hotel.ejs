@@ -43,7 +43,6 @@
     };
     function handleSaveBtn(event) {
         //close the webview
-        console.log({ event })
         MessengerExtensions.requestCloseBrowser(function success() {
             // webview closed
         }, function error(err) {

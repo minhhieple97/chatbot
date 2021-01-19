@@ -2,11 +2,15 @@
 "use strict";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const { default: axios } = require("axios");
+const bodyParser = require("body-parser");
 // Imports dependencies and set up http server
 const request = require("request"),
   express = require("express"),
   path = require("path"),
   app = express().use(express.json()); // creates express http server
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.set("views", path.join(__dirname, "./views"));
 app.set("view engine", "ejs");
 // Sets server port and logs message on success
@@ -66,8 +70,9 @@ app.get("/webhook_", (req, res) => {
     }
   }
 });
-app.get("/webview", (req, res) => {
-  return res.render("hotel.ejs", { psid: "3479323565448041" });
+app.get("/webview/:userId", (req, res) => {
+  console.log(req.params)
+  return res.render("hotel.ejs", { psid: req.params.userId });
 });
 app.post("/set-up-webview", (req, res) => {
   console.log(req.body);
@@ -96,7 +101,7 @@ async function handleMessage(sender_psid, received_message) {
         buttons: [
           {
             type: "web_url",
-            url: process.env.WEBVIEW_URL,
+            url: `${process.env.WEBVIEW_URL}/3479323565448041`,
             title: "Set preferences",
             webview_height_ratio: "tall", //display on mobile
             messenger_extensions: true, //false : open the webview in new tab
