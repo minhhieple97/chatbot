@@ -18,8 +18,10 @@
     console.log("OKKKKKKKKKKKKKKKKKKKKKKKKKKK")
     window.extAsyncInit = function () {
         // the Messenger Extensions JS SDK is done loading
+
         MessengerExtensions.getContext('174629557687466',
             function success(thread_context) {
+                console.log({ thread_context })
                 // success
                 document.getElementById("psid").value = thread_context.psid;
             },
