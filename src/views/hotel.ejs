@@ -10,17 +10,13 @@
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) { return; }
         js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/en_US/messenger.Extensions.js";
+        js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'Messenger'));
-
-
     window.extAsyncInit = function () {
         // the Messenger Extensions JS SDK is done loading
-        console.log("using getUserId in", window)
         MessengerExtensions.getContext('174629557687466',
             function success(thread_context) {
-                console.log({ thread_context })
                 // success
                 document.getElementById("psid").value = thread_context.psid;
             },
@@ -32,16 +28,14 @@
     };
     function handleSaveBtn() {
         //close the webview
-        MessengerExtensions.requestCloseBrowser(function success(data) {
+        MessengerExtensions.requestCloseBrowser(function success() {
             // webview closed
-            console.log("DATA")
         }, function error(err) {
             // an error occurred
             console.log(err);
         });
     }
 </script>
-
 
 <body>
     <form method="POST" action="/set-up-webview">
@@ -73,8 +67,5 @@
 
     </form>
 </body>
-
-
-
 
 </html>
