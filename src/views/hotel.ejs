@@ -33,7 +33,7 @@
             function success(thread_context) {
                 console.log({ thread_context })
                 // success
-                // document.getElementById("psid").value = thread_context.psid;
+                document.getElementById("psid").value = thread_context.psid;
             },
             function error(err) {
                 // error
@@ -55,7 +55,7 @@
 
 <body>
     <form method="POST" action="/set-up-webview">
-        <input type="text" hidden name="psid" id="psid" value="<%=psid%>">
+        <input type="text" hidden name="psid" id="psid">
         <h3>Pillows</h3>
         <input type="radio" id="hardPillow" value="hard" name="pillow" checked>
         <label for="hardPillow">Hard</label>
