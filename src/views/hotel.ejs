@@ -15,17 +15,20 @@
     }(document, 'script', 'Messenger'));
     window.extAsyncInit = function () {
         // the Messenger Extensions JS SDK is done loading
-        MessengerExtensions.getContext('174629557687466',
-            function success(thread_context) {
-                console.log({ thread_context })
-                // success
-                document.getElementById("psid").value = thread_context.psid;
-            },
-            function error(err) {
-                // error
-                console.log(err);
-            }
-        );
+        setTimeout(() => {
+            MessengerExtensions.getContext('174629557687466',
+                function success(thread_context) {
+                    console.log({ thread_context })
+                    // success
+                    document.getElementById("psid").value = thread_context.psid;
+                },
+                function error(err) {
+                    // error
+                    console.log(err);
+                }
+            );
+        }, 1000)
+
     };
     function handleSaveBtn() {
         //close the webview
