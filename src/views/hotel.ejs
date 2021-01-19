@@ -15,7 +15,6 @@
     }(document, 'script', 'Messenger'));
 
 
-    console.log("OKKKKKKKKKKKKKKKKKKKKKKKKKKK")
     window.extAsyncInit = function () {
         // the Messenger Extensions JS SDK is done loading
         console.log("using getUserId in", window.name)
@@ -41,7 +40,7 @@
             }
         );
     };
-    function handleSaveBtn(event) {
+    function handleSaveBtn() {
         //close the webview
         MessengerExtensions.requestCloseBrowser(function success() {
             // webview closed
