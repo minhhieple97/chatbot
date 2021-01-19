@@ -10,7 +10,7 @@
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) { return; }
         js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/vi_VN/messenger.Extensions.js";
+        js.src = "https://connect.facebook.net/en_US/messenger.Extensions.js";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'Messenger'));
 
@@ -32,8 +32,9 @@
     };
     function handleSaveBtn() {
         //close the webview
-        MessengerExtensions.requestCloseBrowser(function success() {
+        MessengerExtensions.requestCloseBrowser(function success(data) {
             // webview closed
+            console.log("DATA")
         }, function error(err) {
             // an error occurred
             console.log(err);
