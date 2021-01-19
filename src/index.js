@@ -70,9 +70,9 @@ app.get("/webhook_", (req, res) => {
     }
   }
 });
-app.get("/webview/:userId", (req, res) => {
-  console.log(req.params)
-  return res.render("hotel.ejs", { psid: req.params.userId });
+app.get("/webview", (req, res) => {
+  console.log(req.query)
+  return res.render("hotel.ejs", { psid: req.query.userId });
 });
 app.post("/set-up-webview", (req, res) => {
   console.log(req.body);
@@ -101,7 +101,7 @@ async function handleMessage(sender_psid, received_message) {
         buttons: [
           {
             type: "web_url",
-            url: `${process.env.WEBVIEW_URL}/3479323565448041`,
+            url: `${process.env.WEBVIEW_URL}?userId=123412345234`,
             title: "Set preferences",
             webview_height_ratio: "tall", //display on mobile
             messenger_extensions: true, //false : open the webview in new tab
