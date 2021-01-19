@@ -17,17 +17,7 @@
 
     window.extAsyncInit = function () {
         // the Messenger Extensions JS SDK is done loading
-        console.log("using getUserId in", window.name)
-
-        MessengerExtensions.getUserID(function success(uids) {
-            // User ID was successfully obtained. 
-            var psid = uids.psid;
-            console.log({ psid });
-            // document.getElementById("userId").innerText = "your User Id Is " + psid;
-        }, function error(err, errorMessage) {
-            // Error handling code
-            console.log("some Error", err, errorMessage)
-        });
+        console.log("using getUserId in", window)
         MessengerExtensions.getContext('174629557687466',
             function success(thread_context) {
                 console.log({ thread_context })

@@ -2,6 +2,8 @@
 "use strict";
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const { default: axios } = require("axios");
+const base64url = require('base64url');
+const crypto = require('crypto')
 const bodyParser = require("body-parser");
 // Imports dependencies and set up http server
 const request = require("request"),
@@ -157,3 +159,28 @@ const callSendAPI = async (sid, content) => {
     console.log(error.message);
   }
 };
+
+
+// function parse_signed_request(signed_request, secret) {
+//   let encoded_data = signed_request.split('.', 2);
+//   // decode the data
+//   let sig = encoded_data[0];
+//   let json = base64url.decode(encoded_data[1]);
+//   let data = JSON.parse(json); // ERROR Occurs Here!
+
+//   // check algorithm - not relevant to error
+//   if (!data.algorithm || data.algorithm.toUpperCase() != 'HMAC-SHA256') {
+//     console.error('Unknown algorithm. Expected HMAC-SHA256');
+//     return null;
+//   }
+
+//   // check sig - not relevant to error
+//   let expected_sig = crypto.createHmac('sha256', secret).update(encoded_data[1]).digest('base64').replace(/\+/g, '-').replace(/\//g, '_').replace('=', '');
+//   if (sig !== expected_sig) {
+//     console.error('Bad signed JSON Signature!');
+//     return null;
+//   }
+//   console.log({ data })
+//   return data;
+// }
+// parse_signed_request("Ss4TLO912sQqGxTd6eUSuuhVAmkaAd0VHWdRAmXtpJI.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImNvbW11bml0eV9pZCI6bnVsbCwiaXNzdWVkX2F0IjoxNjExMDQwNzY4LCJtZXRhZGF0YSI6bnVsbCwicGFnZV9pZCI6MzM3NTUwMzU5OTU3OTY0LCJwc2lkIjoiIiwidGhyZWFkX3BhcnRpY2lwYW50X2lkcyI6bnVsbCwidGhyZWFkX3R5cGUiOiJVU0VSX1RPX1BBR0UiLCJ0aWQiOiIifQ", "35c0e2843384abcdb1895016400e0ec5")
