@@ -5,7 +5,53 @@
     <meta charset="UTF-8">
     <title>Set hotel references</title>
 </head>
+<script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
 
+
+    console.log("OKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+    window.extAsyncInit = function () {
+        // the Messenger Extensions JS SDK is done loading
+        console.log("using getUserId in", window.name)
+
+        MessengerExtensions.getUserID(function success(uids) {
+            // User ID was successfully obtained. 
+            var psid = uids.psid;
+            console.log({ psid });
+            // document.getElementById("userId").innerText = "your User Id Is " + psid;
+        }, function error(err, errorMessage) {
+            // Error handling code
+            console.log("some Error", err, errorMessage)
+        });
+        MessengerExtensions.getContext('174629557687466',
+            function success(thread_context) {
+                console.log({ thread_context })
+                // success
+                // document.getElementById("psid").value = thread_context.psid;
+            },
+            function error(err) {
+                // error
+                console.log(err);
+            }
+        );
+    };
+    function handleSaveBtn(event) {
+        //close the webview
+        console.log({ event })
+        MessengerExtensions.requestCloseBrowser(function success() {
+            // webview closed
+        }, function error(err) {
+            // an error occurred
+            console.log(err);
+        });
+    }
+</script>
 
 
 <body>
@@ -33,47 +79,13 @@
 
         <div>
             <br>
-            <button type="submit" onclick="handleSaveBtn()">SAVE</button>
+            <button type="submit" onclick="handleSaveBtn">SAVE</button>
         </div>
 
     </form>
 </body>
 
-<script>
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) { return; }
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'Messenger'));
 
-    console.log("OKKKKKKKKKKKKKKKKKKKKKKKKKKK")
-    window.extAsyncInit = function () {
-        // the Messenger Extensions JS SDK is done loading
-
-        MessengerExtensions.getContext('174629557687466',
-            function success(thread_context) {
-                console.log({ thread_context })
-                // success
-                // document.getElementById("psid").value = thread_context.psid;
-            },
-            function error(err) {
-                // error
-                console.log(err);
-            }
-        );
-    };
-    function handleSaveBtn(event) {
-        //close the webview
-        MessengerExtensions.requestCloseBrowser(function success() {
-            // webview closed
-        }, function error(err) {
-            // an error occurred
-            console.log(err);
-        });
-    }
-</script>
 
 
 </html>
